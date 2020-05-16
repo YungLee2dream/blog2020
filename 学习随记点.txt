@@ -1,0 +1,247 @@
+﻿
+springboot学习待补充知识点：
+
+AnglarJS
+Docker
+7
+
+多个服务分支，springboot父依赖转换
+<dependencyManagement>
+	<dependencies>
+		<dependency>
+			<group>org.springframework.data
+			<artifactId>spring-data-releasetrain
+			<version>Fower-SR2
+			<type>pom
+			<scope>import
+		<dependency>
+			<group>org.springframework.boot
+			<artifactId>spring-boot-dependencies
+			<version>2.1.8.RELEASE
+			<type>pom
+			<scope>import
+
+
+
+
+Linux命令运用记录：
+查看防火墙状态（两种）:
+service iptables status
+/etc/init.d/iptables status
+
+service iptables stop  //关闭防火墙  
+service sshd start     //启动 SSHD 服务
+
+ssh 远程主机用户@远程主机ip
+
+setup 打开设置
+
+
+linux 命令：
+
+linux 空间大小：https://blog.csdn.net/a923751813/article/details/78857793
+适当显示空间：$df -h  
+
+1、安装: yum install 软件
+2、升级: yum update 软件
+3、删除: yum remove 软件
+4、查看: yum info 软件
+5、搜索软件: yum search 软件
+6、查看依赖关系: yum deplist 软件
+7、查看已安装软件: yum list installded
+
+检测实收安装rpm包：rpm -qa | grep mysql
+
+
+安装Mysql
+linux下载：wget https://repo.mysql.com//mysql80-community-release-el7-1.noarch.rpm
+安装：
+	rpm -ivh mysql80-community-release-el7-1.noarch.rpm
+	yum install mysql-server
+初始化：
+	mysqld --initialize
+启动;
+	service mysqld start     （失败）
+
+问题一、失败问题解决：（部分文件权限为root，需要给mysql）ob for mysqld.service failed because the control process exited with error code. See "systemctl status mysqld.service" and "journalctl -xe" for details.
+ll /var/lib/mysql |grep mysql
+chown -R mysql:mysql /var/lib/mysql
+
+版本：mysqladmin --version
+
+问题二、登录mysql失败，ERROR 1045 (28000): Access denied for user ‘root’@’localhost’ (using password: NO) 错误
+service mysqld stop
+修改配置文件无密码登录：
+vi /etc/my.cnf
+在最尾部加上：
+skip-grant-tables
+重启，root可登录
+登录mysql，修改密码为空串：
+mysql> use mysql
+update user set authentication_string='' where user='root';
+退出mysql，删除：skip-grant-tables，在登录mysql，执行密码修改
+ALTER user 'root'@'localhost' IDENTIFIED BY '你的密码';   （驱动问题，启用，安装OK）
+
+安装mysql57
+https://blog.csdn.net/weixin_38628533/article/details/79334591
+
+sudo yum update
+系统服务 - sshd（第一个） -空格选中 - Tab OK
+
+linux配置jdk：
+导入tar到usr/bin
+配置 ？etc/profile  -- 生效 source + 文件
+
+rpm 命令：
+-ivh 安装 进度
+-Uvh 升级
+-e --nodeps(不管关联版本)
+
+CentOS64：root 123456
+上传 rz 
+下载 sz
+
+查看端口：lsof -i:8080
+
+查看进程：ps -ef | grep tomcat
+
+进程号查看端口：netstat -nap | grep 进程pid、名称
+ 
+scp ： 跨服务器赋值文件
+
+
+Windows命令运行记录：
+注册表：gpedit.msc
+信息：dxdiag
+打包 jar，接口9090
+  java -jar xx.jar --server.port=9090
+支持的最大内存容量为32GB，DDR3的二代内存条适配 选择：ddr3 4g 1600MHZ
+小技巧：word  输入 - rand(10,50) 10段50每段
+
+画图：mspaint
+
+设置电脑自动关机命令: shutdown -s -t xxxx（-t -s为参数，XXXX为时间，单位为秒）。
+
+查看端口情况：netstat -ano|findstr 8080
+杀掉端口：taskkill /F /PID 2316
+
+跨盘跳转（跳转E盘）：e: 或者 cd /d e
+
+
+linux 安装FTP
+1、yum install vsftpd -y 初始化安装
+yum install vsftpd -y
+yum install ftp -y
+
+2、启动ftp命令#service vsftpd start
+	停止ftp命令#service vsftpd stop
+	重启ftp命令#service vsftpd restart
+3、#useradd -s /sbin/nologin testaccount --创建账号
+#passwd testaccount  -- 为创建好的账号进行设置密码
+
+
+
+maven记录：
+
+打包：mvn install:install-file -Dfile=jar包的位置 -DgroupId=上面的groupId -DartifactId=上面的artifactId -Dversion=上面的version -Dpackaging=jar
+
+mvn install:install-file -Dfile=E:\ProgramArea\ideaWorkspace\springboothello\target\springboot-hello-1.0-SNAPSHOT.jar -DgroupId=com.ly -DartifactId=springboot-hello -Dversion=1.0-SNAPSHOT -Dpackaging=jar
+
+maven spring-boot:run  到项目文件下运行命令，执行springboot项目
+
+mvn clean package  Maven编译当前目录下文件
+
+dir 对应 ls -a
+
+java -jar xx.jar --server.port=999  --debug
+
+javac 编译class文件 ； -d 在当前目录下简历文件对应，package文件
+
+java 执行class文件，不带class后缀。classpath：配置.;，会将当前路劲当做项目路径，注意编译的包路径
+
+nohup java -jar xx.jar 运行项目，后台运行，返回进程号
+
+ps -ef| grep xx.jar
+
+kill -9 进程号
+
+新建自定义脚本：
+
+
+
+IDEA操作：
+
+重置快捷键：服务器加载静态文件，不需要重启，build - build project ；快捷键：ctrl + F9  ；
+修改快捷键：keymap - 查找快捷键对应
+
+激活IDEA：http://idea.lanyus.com/ 输入 lan yu  获取激活码
+
+SHFIT+ALT+INSERT 批量列插入数据
+CTRL+D 选中两个文档，比较两个文档
+CTRL+D 选中一个文档或者文件夹，查看位置
+编辑器与粘贴比较，编辑器中 右键选择  Compare with Clipboard
+
+配置服务器管理：Settings-Deployment，添加 SFTP Server
+打开：Tool-Start SSH session，选择 ssh server
+
+Ctrl+ALT+T 将选中语句环绕  使用(if..else, try..catch, for, synchronized 等)包围选中语句
+Ctrl+W  、 Ctrl+shirft+W 选择代码块，反选 {} 
+Ctrl+Shift+J 合并多行为一行
+Ctrl+delete/backspace 删除光标后、前的单词数据
+
+ctrl+ （+、-）展开 收缩代码块  
+ctrl+shfit+ （+、-）整个展开 收缩代码块  
+
+F2 选中错误
+
+
+REDIS
+
+安装：https://github.com/MicrosoftArchive/redis/releases
+密码：123456  （配置文件添加或者修改 requirepass 123456 ）
+检验服务器状态：redis-cli
+输入“auth 12345”并回车（12345是之前设定的密码）。返回提示OK表示验证通过。
+输入set mykey1 "I love you all!”并回车，用来保存一个键值。再输入get mykey1，获取刚才保存的键值。
+
+redis桌面控制工具：百度云-redis 
+
+
+
+
+
+
+Apache ab 压力测试
+.\httpd.exe -k install
+	
+	http://localhost:8080/order/sale/order
+    ab -n 2000 -c 500 http://*:8000/recommend?companyCode=param
+
+     -n :请求数
+
+    -c:   并发数
+
+     param：post你需要传的参数
+
+    *：是IP地址
+
+
+	
+	
+	
+	
+	
+	
+
+springboot问题汇总
+
+1、springBoot集成redis缓存，缓存出现：SpelEvaluationException: EL1008E
+缓存生效注解 @Cacheable - key属性只能是 数字和 #root.methodName获取方法名
+key不填，默认参数值
+cacheConfig ：统一配置
+key中支持 sple表达式
+condition ： #pram.length > 3 参数长度大于3 ，满足条件 缓存
+unless ： "#result.getCode() != 0" #result为方法返回对象 ， =》不等于0的不缓存
+
+
+
+
